@@ -1,67 +1,35 @@
 import { useId, useState } from "react";
+
 import "./App.css";
+import ContactForm from "./component/ContactForm/ContactForm";
+import ContactList from "./component/ContactList/ContactList";
+
+import initialContactList from "./contactList.json";
 
 const initialValue = {
-  username: "",
-  numberPhone: "",
+  id: "",
+  name: "",
+  number: "",
 };
 
 function App() {
-  const id = useId();
   const [userDate, setUserDate] = useState(initialValue);
+  const [contactList, setContactList] = useState(initialContactList);
 
-  const handleSubmitForm = (evt) => {
-    evt.preventDefault();
-    console.log(userDate);
-    setUserDate(initialValue);
-  };
-  const handleChange = (evt) => {
-    setUserDate({
-      ...userDate,
-      [evt.target.name]: evt.target.value,
-    });
+  const id = useId();
+
+  const addNewUser = (newUser) => {
+    setContactList((prevState) => [...prevState, newUser]);
   };
   return (
     <>
-      <form onSubmit={handleSubmitForm}>
-        <div className="username">
-          <label htmlFor={`${id}-'userName'`}>Name</label>
-          <input
-            type="text"
-            value={userDate.username}
-            onChange={handleChange}
-            name="username"
-            id={`${id}-'userName'`}
-          />
-        </div>
-        <div className="numberPhone">
-          <label htmlFor={`${id}-'numberPhone'`}>Number</label>
-          <input
-            type="text"
-            value={userDate.numberPhone}
-            onChange={handleChange}
-            name="numberPhone"
-            id={`${id}-'numberPhone'`}
-          />
-        </div>
-
-        <button type="submit">Add contact</button>
-      </form>
+      <ContactForm updateContactList={addNewUser} />
 
       <div className="wrapper">
         <label htmlFor={`${id}-'searchContact'`}>Find contacts by name</label>
         <input type="text" name="searchContact" id={`${id}-'searchContact'`} />
       </div>
-
-      <div>
-        <ul>
-          <li>
-            <span></span>
-            <span></span>
-            <button></button>
-          </li>
-        </ul>
-      </div>
+      <ContactList userList={contactList} />
     </>
   );
 }
