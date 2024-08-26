@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import "./App.css";
+import style from "./app.module.css";
 import ContactForm from "./component/ContactForm/ContactForm";
 import ContactList from "./component/ContactList/ContactList";
 import SearchBox from "./component/SearchBox/SearchBox";
@@ -35,11 +35,13 @@ function App() {
   );
 
   return (
-    <>
-      <ContactForm updateContactList={addNewUser} />
-      <SearchBox value={filter} onFilter={setFilter} />
-      <ContactList userList={visiblePhoneBook} onDelete={onDeleteUser} />
-    </>
+    <div className={style.formWrapper}>
+      <div className={style.container}>
+        <ContactForm updateContactList={addNewUser} />
+        <SearchBox value={filter} onFilter={setFilter} />
+        <ContactList userList={visiblePhoneBook} onDelete={onDeleteUser} />
+      </div>
+    </div>
   );
 }
 
